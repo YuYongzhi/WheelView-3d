@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import chen.you.wheel.LinearDrawManager;
-import chen.you.wheel.WheelDrawManager;
-import chen.you.wheel.WheelParams;
-import chen.you.wheel.WheelView;
+import com.maitao.wheel.LinearDrawManager;
+import com.maitao.wheel.WheelDrawManager;
+import com.maitao.wheel.WheelParams;
+import com.maitao.wheel.WheelView;
 
 /**
  * author: you : 2022/12/8

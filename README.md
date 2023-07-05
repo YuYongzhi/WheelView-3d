@@ -68,7 +68,7 @@ dependencies {
 ### 布局生成WheelView使用方式, 不设置时使用将使用默认值
 
 ```
-<chen.you.wheel.WheelView
+<com.maitao.wheel.WheelView
     android:id="@+id/wv_city"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"

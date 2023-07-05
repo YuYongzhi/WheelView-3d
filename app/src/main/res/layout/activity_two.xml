@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <chen.you.wheel.WheelView
+    <com.maitao.wheel.WheelView
         android:id="@+id/wv_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

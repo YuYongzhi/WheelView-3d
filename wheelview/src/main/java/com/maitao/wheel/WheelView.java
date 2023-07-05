@@ -1,4 +1,4 @@
-package chen.you.wheel;
+package com.maitao.wheel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -95,6 +95,7 @@ public final class WheelView extends ViewGroup {
         mRecyclerView = new RecyclerView(context);
         mRecyclerView.setId(ViewCompat.generateViewId());
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
         mLayoutManager = new LinearLayoutManager(context, mWheelParams.getLayoutOrientation(), false);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -141,12 +142,13 @@ public final class WheelView extends ViewGroup {
         if (mWheelParams.isVertical()) {
             //非精准测量给默认值且不是linearlayout的layout_weight或者ConstraintLayout等之类的权重布局
             if (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.EXACTLY
-                    && (layoutParams != null && layoutParams.width != 0)) {
+                && (layoutParams != null && layoutParams.width != 0)) {
                 childParams.width = Math.max(DEF_SIZE, getSuggestedMinimumWidth() - paddingLeftRight);
             }
-        } else {
+        }
+        else {
             if (MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY
-                    && (layoutParams != null && layoutParams.height != 0)) {
+                && (layoutParams != null && layoutParams.height != 0)) {
                 childParams.height = Math.max(DEF_SIZE, getSuggestedMinimumHeight() - paddingTopBottom);
             }
         }
@@ -154,7 +156,7 @@ public final class WheelView extends ViewGroup {
         int width = mRecyclerView.getMeasuredWidth() + paddingLeftRight;
         int height = mRecyclerView.getMeasuredHeight() + paddingTopBottom;
         setMeasuredDimension(resolveSizeAndState(width, widthMeasureSpec, childState),
-                resolveSizeAndState(height, heightMeasureSpec, childState));
+            resolveSizeAndState(height, heightMeasureSpec, childState));
     }
 
     @Override
@@ -205,7 +207,12 @@ public final class WheelView extends ViewGroup {
         mSelectedPosition = index;
         if (mSelectedListeners != null) {
             for (OnItemSelectedListener listener : mSelectedListeners) {
-                listener.onItemSelected(this, index);
+                if (mWheelParams.isLoop && mWheelAdapter != null && mWheelAdapter.adapter != null) {
+                    listener.onItemSelected(this, index % mWheelAdapter.adapter.getItemCount());
+                }
+                else {
+                    listener.onItemSelected(this, index);
+                }
             }
         }
     }
@@ -276,7 +283,15 @@ public final class WheelView extends ViewGroup {
      * 设置当前item位置
      */
     public void setCurrentItem(int position) {
-        mLayoutManager.scrollToPositionWithOffset(position, 0);
+        if (mWheelParams.isLoop && mWheelAdapter.adapter != null) {
+            int itemCount = mWheelAdapter.adapter.getItemCount();
+            int half = mWheelAdapter.getItemCount() / 2;
+            int index = half - half % itemCount;
+            mLayoutManager.scrollToPositionWithOffset(index + position, 0);
+        }
+        else {
+            mLayoutManager.scrollToPositionWithOffset(position, 0);
+        }
     }
 
     public void addOnItemSelectedListener(OnItemSelectedListener listener) {
@@ -350,7 +365,8 @@ public final class WheelView extends ViewGroup {
 
         public abstract int getItemCount();
 
-        @NonNull public abstract String getItem(int position);
+        @NonNull
+        public abstract String getItem(int position);
     }
 
     /**
@@ -459,7 +475,7 @@ public final class WheelView extends ViewGroup {
 
         @Override
         public final void getItemOffsets(@NonNull Rect outRect, @NonNull View view,
-                                   @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                                         @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         }
 
         @Override
@@ -474,7 +490,7 @@ public final class WheelView extends ViewGroup {
             if (wheelCount <= 0) return;
             WheelAdapter adapter = (WheelAdapter) rv.getAdapter();
             wvRect.set(rv.getPaddingLeft(), rv.getPaddingTop(),
-                    rv.getWidth() - rv.getPaddingRight(), rv.getHeight() - rv.getPaddingBottom());
+                rv.getWidth() - rv.getPaddingRight(), rv.getHeight() - rv.getPaddingBottom());
             preDecoration(c, wvRect);
             for (int i = 0; i < rv.getChildCount(); i++) {
                 View itemView = rv.getChildAt(i);
@@ -526,6 +542,9 @@ public final class WheelView extends ViewGroup {
 
         @Override
         public int getItemCount() {
+            if (wheelParams.isLoop) {
+                return Integer.MAX_VALUE;
+            }
             if (itemCounts == null) {
                 itemCounts = adapter == null ? 0 : adapter.getItemCount() + wheelParams.getShowItemCount() * 2;
             }
@@ -538,7 +557,8 @@ public final class WheelView extends ViewGroup {
             View view = new View(parent.getContext());
             if (wheelParams.isVertical()) {
                 view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, wheelParams.itemSize));
-            } else {
+            }
+            else {
                 view.setLayoutParams(new LayoutParams(wheelParams.itemSize, LayoutParams.MATCH_PARENT));
             }
             view.setVisibility(View.INVISIBLE);
@@ -550,8 +570,11 @@ public final class WheelView extends ViewGroup {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         }
 
-        @NonNull private String getItem(int position) {
-            if (adapter != null) return adapter.getItem(position);
+        @NonNull
+        private String getItem(int position) {
+            if (adapter != null) {
+                return adapter.getItem(position % adapter.getItemCount());
+            }
             return "";
         }
     }
@@ -603,7 +626,8 @@ public final class WheelView extends ViewGroup {
                 c.drawLine(parentRect.left, firstY, parentRect.right, firstY, dividerPaint);
                 float secondY = parentRect.bottom - dividerOff + wheelParams.dividerPadding;
                 c.drawLine(parentRect.left, secondY, parentRect.right, secondY, dividerPaint);
-            } else {
+            }
+            else {
                 float dividerOff = (parentRect.width() - wheelParams.itemSize) / 2.0f;
                 float firstX = parentRect.left + dividerOff - wheelParams.dividerPadding;
                 c.drawLine(firstX, parentRect.top, firstX, parentRect.bottom, dividerPaint);

@@ -1,4 +1,4 @@
-package chen.you.wheel;
+package com.maitao.wheel;
 
 import android.graphics.Camera;
 import android.graphics.Canvas;

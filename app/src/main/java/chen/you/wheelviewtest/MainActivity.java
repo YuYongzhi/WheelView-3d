@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import chen.you.wheel.WheelView;
+import com.maitao.wheel.WheelView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,22 +46,23 @@ public class MainActivity extends AppCompatActivity {
         wv_city.addOnItemSelectedListener(new WheelView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelView wheelView, int index) {
-                tv_city.setText("市: "+cityAdapter.getItem(index));
+                tv_city.setText("市: " + cityAdapter.getItem(index));
                 List<String> strs = Arrays.asList(TestDatas.AREAS[index]);
                 countyAdapter.strs.clear();
                 countyAdapter.strs.addAll(strs);
                 countyAdapter.notifyDataSetChanged();
                 wv_county.setCurrentItem(0);
-                tv_county.setText("县: "+countyAdapter.getItem(0));
+                tv_county.setText("县: " + countyAdapter.getItem(0));
             }
         });
+        wv_city.setCurrentItem(cityAdapter.getItemCount() + 1);
 
         /* 区滑轮控件 */
 
         wv_county.addOnItemSelectedListener(new WheelView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelView wheelView, int index) {
-                tv_county.setText("县: "+countyAdapter.getItem(index));
+                tv_county.setText("县: " + countyAdapter.getItem(index));
             }
         });
 
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         wv_number.addOnItemSelectedListener(new WheelView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(WheelView wheelView, int index) {
-                tv_number.setText("水平布局"+index);
+                tv_number.setText("水平布局" + index);
             }
         });
         wv_number.setCurrentItem(88);
@@ -108,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private class CityAdapter extends WheelView.Adapter {

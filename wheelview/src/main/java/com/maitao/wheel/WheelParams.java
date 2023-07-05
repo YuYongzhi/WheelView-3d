@@ -1,4 +1,4 @@
-package chen.you.wheel;
+package com.maitao.wheel;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -25,20 +25,24 @@ public final class WheelParams {
      */
     public static final int VERTICAL = 1;
     public static final int HORIZONTAL = 0;
+
     @IntDef({HORIZONTAL, VERTICAL})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Orientation {
     }
+
     /**
      * 垂直布局时的靠左,居中,靠右立体效果
      */
     public static final int CENTER = 0;
     public static final int LEFT = 1;
     public static final int RIGHT = 2;
+
     @IntDef({CENTER, LEFT, RIGHT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Gravity {
     }
+
     /**
      * 一些默认参数大小
      */
@@ -81,6 +85,7 @@ public final class WheelParams {
     public final int dividerPadding;
     //实际显示在界面上的itemCount
     private int showItemCount;
+    public boolean isLoop;
     //ItemShowOrder
     private ItemShowOrder itemShowOrder;
 
@@ -96,6 +101,7 @@ public final class WheelParams {
         this.dividerSize = builder.dividerSize;
         this.dividerColor = builder.dividerColor;
         this.dividerPadding = builder.dividerPadding;
+        this.isLoop = builder.isLoop;
         this.showItemCount = itemCount;
     }
 
@@ -107,7 +113,8 @@ public final class WheelParams {
         return showItemCount;
     }
 
-    @RecyclerView.Orientation public int getLayoutOrientation() {
+    @RecyclerView.Orientation
+    public int getLayoutOrientation() {
         return orientation == VERTICAL ? LinearLayoutManager.VERTICAL : LinearLayoutManager.HORIZONTAL;
     }
 
@@ -138,27 +145,34 @@ public final class WheelParams {
 
     public final static class Builder {
         //布局方向
-        @Orientation int orientation = VERTICAL;
+        @Orientation
+        int orientation = VERTICAL;
         //item数量
         int itemCount = DEF_ITEM_COUNT;
         //item大小
         int itemSize = DEF_ITEM_SIZE;
         //对齐方式
-        @Gravity int gravity = CENTER;
+        @Gravity
+        int gravity = CENTER;
         //item文字大小, 如果中心文字大小需要调整可以用Canvas缩放
         float textSize = DEF_TEXT_SIZE;
         //item文字颜色
-        @ColorInt int textColor = Color.BLACK;
+        @ColorInt
+        int textColor = Color.BLACK;
         //中心文字颜色
-        @ColorInt int textCenterColor = Color.RED;
+        @ColorInt
+        int textCenterColor = Color.RED;
         //透明度渐变
         boolean gradient = true;
         //分割线大小
         int dividerSize = DEF_DIVIDER_SIZE;
         //分割线颜色
-        @ColorInt int dividerColor = Color.RED;
+        @ColorInt
+        int dividerColor = Color.RED;
         //分割线填充值默认为0, 分割线矩阵大小为itemSize + dividerPadding
         int dividerPadding = 0;
+
+        boolean isLoop = false;
 
         public Builder() {
         }
@@ -191,6 +205,7 @@ public final class WheelParams {
                 dividerColor = a.getColor(R.styleable.WheelView_wheelDividerColor, dividerColor);
                 dividerSize = a.getDimensionPixelOffset(R.styleable.WheelView_wheelDividerSize, dividerSize);
                 dividerPadding = a.getDimensionPixelSize(R.styleable.WheelView_wheelDividerPadding, dividerPadding);
+                isLoop = a.getBoolean(R.styleable.WheelView_wheelCyclic, isLoop);
                 a.recycle();
             }
         }
@@ -247,6 +262,11 @@ public final class WheelParams {
 
         public Builder setDividerPadding(int dividerPadding) {
             this.dividerPadding = dividerPadding;
+            return this;
+        }
+
+        public Builder setCyclic(boolean cyclic) {
+            this.isLoop = cyclic;
             return this;
         }
 

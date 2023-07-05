@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,112 +14,120 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="#ff00ff"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="靠左立体"/>
+            android:text="靠左立体"
+            android:textColor="#ff00ff" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="#ff00ff"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="居中立体"/>
+            android:text="居中立体"
+            android:textColor="#ff00ff" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:textColor="#ff00ff"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="靠右立体"/>
+            android:text="靠右立体"
+            android:textColor="#ff00ff" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView android:id="@+id/tv_city"
+            <TextView
+                android:id="@+id/tv_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="选择的市"/>
+                android:hint="选择的市" />
 
-            <TextView android:id="@+id/tv_county"
+            <TextView
+                android:id="@+id/tv_county"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:hint="选择的县"/>
+                android:hint="选择的县" />
 
         </LinearLayout>
 
-        <chen.you.wheel.WheelView
+        <com.maitao.wheel.WheelView
             android:id="@+id/wv_city"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            app:wheelItemCount="4"
-            app:wheelItemSize="25dp"
+            android:layout_weight="1"
+            app:wheelCyclic="true"
             app:wheelDividerSize="1dp"
+            app:wheelDividerColor="#eee"
+            app:wheelTextCenterColor="#333"
+            app:wheelTextColor="#A5A5A5"
             app:wheelGravity="left"
-            app:wheelTextSize="18sp"/>
+            app:wheelItemCount="4"
+            app:wheelItemSize="30dp"
+            app:wheelTextSize="16sp" />
 
-        <chen.you.wheel.WheelView
+        <com.maitao.wheel.WheelView
             android:id="@+id/wv_county"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            app:wheelItemCount="4"
-            app:wheelItemSize="25dp"
+            android:layout_weight="1"
             app:wheelDividerSize="1dp"
             app:wheelGravity="center"
-            app:wheelTextSize="18sp"/>
-
-        <chen.you.wheel.WheelView
-            android:id="@+id/wv_name"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
             app:wheelItemCount="4"
             app:wheelItemSize="25dp"
+            app:wheelTextSize="18sp" />
+
+        <com.maitao.wheel.WheelView
+            android:id="@+id/wv_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             app:wheelDividerSize="1dp"
             app:wheelGravity="right"
-            app:wheelTextSize="18sp"/>
+            app:wheelItemCount="4"
+            app:wheelItemSize="25dp"
+            app:wheelTextSize="18sp" />
 
     </LinearLayout>
 
-    <TextView android:id="@+id/tv_number"
+    <TextView
+        android:id="@+id/tv_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:textSize="18sp"
-        android:text="水平布局88"/>
+        android:text="水平布局88"
+        android:textSize="18sp" />
 
-    <chen.you.wheel.WheelView
+    <com.maitao.wheel.WheelView
         android:id="@+id/wv_number"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
+        app:wheelDividerSize="1dp"
         app:wheelItemCount="3"
         app:wheelItemSize="30dp"
-        app:wheelDividerSize="1dp"
         app:wheelOrientation="horizontal"
-        app:wheelTextSize="25sp"/>
+        app:wheelTextSize="25sp" />
 
-    <Button android:id="@+id/bt"
+    <Button
+        android:id="@+id/bt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:text="测试界面2"/>
+        android:text="测试界面2"
+        android:textAllCaps="false" />
 
 </LinearLayout>

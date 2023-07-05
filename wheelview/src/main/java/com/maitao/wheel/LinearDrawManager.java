@@ -1,4 +1,4 @@
-package chen.you.wheel;
+package com.maitao.wheel;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -29,7 +29,8 @@ public class LinearDrawManager extends WheelView.DrawManager {
         float scrollOff; //相对中心的滑动偏移, 根据itemSize和偏移即可计算中离中心的比例和是否为中心item
         if (wheelParams.isVertical()) {
             scrollOff = wvRect.exactCenterY() - itemRect.exactCenterY();
-        } else {
+        }
+        else {
             scrollOff = wvRect.exactCenterX() - itemRect.exactCenterX();
         }
 
@@ -50,7 +51,8 @@ public class LinearDrawManager extends WheelView.DrawManager {
         }
         if (isCenterItem) {
             getItemPainter().drawCenterItem(c, itemRect, alpha, item);
-        } else {
+        }
+        else {
             getItemPainter().drawItem(c, itemRect, alpha, item);
         }
     }
